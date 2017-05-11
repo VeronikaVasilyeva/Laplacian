@@ -76,8 +76,6 @@ artifacts/
 *_i.h
 *.ilk
 *.meta
-*.obj
-*.pch
 *.pdb
 *.pgc
 *.pgd
@@ -132,3 +130,4 @@ _ReSharper*/
 # NuGet v3's project.json files produces more ignorable files
 *.nuget.props
 *.nuget.targets
+/DataSet/
