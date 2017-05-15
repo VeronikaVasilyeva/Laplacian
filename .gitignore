@@ -131,3 +131,4 @@ _ReSharper*/
 *.nuget.props
 *.nuget.targets
 /DataSet/
+/Presentation/
