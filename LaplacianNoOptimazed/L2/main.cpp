@@ -1,9 +1,7 @@
-#include "stdafx.h"
-#pragma warning(disable:4996)
-
-#include <stdlib.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <ctime>
+#include <algorithm>
 
 #define STB_IMAGE_IMPLEMENTATION
 #define STBI_FAILURE_USERMSG
@@ -16,16 +14,16 @@
 const char* path = "../../DataSet/";
 char* extension = ".jpg";
 char* extension1 = "-noOptimized.jpg";
-const int N = 91; 
+const int N = 123;
 
 unsigned char* resourse;
 unsigned char* result;
 int width, height, bpp;
 
 float filter[3][3] = {
-	{0, -1, 0},
-	{-1, 5, -1},
-	{0, -1, 0}
+	{ 0, -1, 0 },
+	{ -1, 5, -1 },
+	{ 0, -1, 0 }
 };
 
 double get_pixel(int x, int y, int channel)
@@ -35,7 +33,7 @@ double get_pixel(int x, int y, int channel)
 
 void set_pixel(int x, int y, int channel, double clr)
 {
-	unsigned char color = static_cast<unsigned char>(max(0, min((clr), 255)));
+	unsigned char color = static_cast<unsigned char>(max(0.0, min(clr, 255.0)));
 	result[3 * (width * y + x) + channel] = color;
 }
 
@@ -71,7 +69,7 @@ void laplacian()
 
 void make_file_name(int i, char*& filename, char*& ext)
 {
-	char name[3];
+	char name[4];
 	sprintf(name, "%d", i);
 
 	filename = static_cast<char*>(malloc(strlen(path) + strlen(name) + strlen(ext))); /* make space for the new string (should check the return value ...) */
@@ -81,19 +79,19 @@ void make_file_name(int i, char*& filename, char*& ext)
 	strcat(filename, ext); /* add the extension */
 }
 
-int _tmain(int argc, _TCHAR* argv[])
+int main(void)
 {
 	double start_time = clock();
 
 	for (int i = 1; i < N; i++)
 	{
-		char* filename; 
+		char* filename;
 		make_file_name(i, filename, extension);
 
 		resourse = stbi_load(filename, &width, &height, &bpp, 3);
 		result = static_cast<unsigned char*>(calloc(width * height * 3, sizeof(unsigned char)));
 
-		if (resourse != nullptr)
+		if (resourse != 0)
 		{
 			laplacian();
 
@@ -107,15 +105,15 @@ int _tmain(int argc, _TCHAR* argv[])
 		}
 		else
 		{
-			auto errorLog = stbi_failure_reason();
+			const char* errorLog = stbi_failure_reason();
 			fprintf(stderr, "Can't load of the file-image, because: \"%s\"\n", errorLog);
 		}
 	}
 
 	double end_time = clock(); // конечное время
-	auto search_time = (end_time - start_time) / 1000;
+	double search_time = (end_time - start_time) / 1000;
 
-	printf("runtime = \"%lf\" \n", search_time); // время работы программы                  
+	printf("runtime = \"%lf\" \n", static_cast<double>(search_time)); // время работы программы                  
 	system("pause");
 
 	return 0;
