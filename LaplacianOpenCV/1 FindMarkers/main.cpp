@@ -11,11 +11,11 @@ using namespace std;
 const char* path = "../../DataSet/";
 char* extension = ".jpg";
 char* extension1 = "-OpenCV.jpg";
-const int N = 91;
+const int N = 123;
 
 void make_file_name(int i, char*& filename, char*& ext)
 {
-	char name[3];
+	char name[4];
 	sprintf(name, "%d", i);
 
 	filename = static_cast<char*>(malloc(strlen(path) + strlen(name) + strlen(ext))); /* make space for the new string (should check the return value ...) */
